@@ -1,0 +1,39 @@
+Physical vs. Virtual Networking:
+1- Ethernet Port on the server – commonly called pNIC (physical NIC)
+2- RJ45 Cable
+3- Ethernet Port on the physical switch
+4- Uplink Port on the physical switch – connects to external network.
+https://i0.wp.com/www.innervoice.in/blogs/wp-content/uploads/2013/12/Physical-Network.png
+
+Switch Ports:
+ - Linux bridge is really a switch implemented inside Linux kernel.
+ - Like any switch, it requires ports or interfaces to carry data traffic in and out of the switch.
+
+ - Ethernet Port on VM (emulates the pNIC) – commonly knows as vNIC (Virtual NIC). 
+   Virtual port is emulated with help from KVM/QEMU.
+ - Virtual RJ45 Cable – we will see how this is created.
+ - Ethernet Port on Virtual Switch – for Linux Bridge, this is represented by the tap 
+   interface since it connects to a vNIC.
+ - Uplink Port on the Virtual Switch – this is usually the interface that represent the pNIC. 
+   In Linux world eth0, eth1 etc are the software interfaces that represent the physical ethernet port.
+ - In case of a physical server, the Uplink port on physical switch provided external network connectivity. 
+   In case of virtual machines, the Uplink port on virtual switch provides external network connectivity.
+https://i2.wp.com/www.innervoice.in/blogs/wp-content/uploads/2013/12/VirtualNetwotk.png
+
+Tap Interfaces - Why do we need them?
+ - Like their physical counterparts, virtual machines network ports can only process Ethernet frames. 
+ - In non-virtualized environments, the physical NIC interface will receive and process the Ethernet frames. 
+ - It will strip out the Ethernet related overhead bytes and forward the payload (usually IP packets) further up to the OS.
+ - With virtualization however, this will not work since the virtual NICs would expect Ethernet frames. 
+ - This is where tap interfaces come into picture. 
+ - Tap interfaces are special software entities which tell the Linux bridge to forward Ethernet frames as it is. 
+ - In other words, the virtual machines connected to tap interfaces will be able to receive raw Ethernet frames. 
+ - And due to this virtual machines can continue to emulate physical machines from a networking perspective.
+
+Linux Bridges:
+ - brctl addbr <bridgeName>
+ - brctl show
+ - brctl addif <bridgeName> <interfaceName>
+ - brctl delbr <bridgeName>
+ - brctl showmacs <bridgeName>
+   

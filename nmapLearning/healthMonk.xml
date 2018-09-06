@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 6.40 scan initiated Sun Sep  3 16:32:56 2017 as: nmap -PS -p1-1024 -oA healthMonk 52.220.132.186 -->
+<nmaprun scanner="nmap" args="nmap -PS -p1-1024 -oA healthMonk 52.220.132.186" start="1504436576" startstr="Sun Sep  3 16:32:56 2017" version="6.40" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1024" services="1-1024"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1504436576" endtime="1504436589"><status state="up" reason="syn-ack" reason_ttl="240"/>
+<address addr="52.220.132.186" addrtype="ipv4"/>
+<hostnames>
+<hostname name="ec2-52-220-132-186.ap-southeast-1.compute.amazonaws.com" type="PTR"/>
+</hostnames>
+<ports><extraports state="filtered" count="1023">
+<extrareasons reason="no-responses" count="1023"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="240"/><service name="http" method="table" conf="3"/></port>
+</ports>
+<times srtt="43231" rttvar="5001" to="100000"/>
+</host>
+<runstats><finished time="1504436589" timestr="Sun Sep  3 16:33:09 2017" elapsed="13.42" summary="Nmap done at Sun Sep  3 16:33:09 2017; 1 IP address (1 host up) scanned in 13.42 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

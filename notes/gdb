@@ -1,0 +1,11 @@
+To set breakpoint on exit call of a process:
+  - catch syscall 60
+  - catch syscall 231
+To list breakpoints:
+  - info breakpoints
+To read the symbol file:
+  - symbol-file <fileName>
+To print a value of an array elements:
+  - print *arrayPointer@<size>
+
+

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 6.40 scan initiated Sat Sep  2 14:31:56 2017 as: nmap -sS -p1-3333 -PE -PP -PS80,443 -A -oA 180.179.180.198 -->
+<nmaprun scanner="nmap" args="nmap -sS -p1-3333 -PE -PP -PS80,443 -A -oA 180.179.180.198" start="1504342916" startstr="Sat Sep  2 14:31:56 2017" version="6.40" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="3333" services="1-3333"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<runstats><finished time="1504342916" timestr="Sat Sep  2 14:31:56 2017" elapsed="0.34" summary="Nmap done at Sat Sep  2 14:31:56 2017; 0 IP addresses (0 hosts up) scanned in 0.34 seconds" exit="success"/><hosts up="0" down="0" total="0"/>
+</runstats>
+</nmaprun>

@@ -1,0 +1,42 @@
+#define SIZE 100
+#define INVALID -12345
+
+class HashNode {
+   private:	
+      const int key;
+      const int val;
+      HashNode *next;
+   public:
+      HashNode(int key_,int val_): key(key_), val(val_),next(0) {}	      
+};	
+
+
+class HashTable {
+   private:
+	HashNode **table;
+	int hash(int key);
+   public:
+	HashTable();
+        ~HashTable();
+	int search(int key);
+        void insert(int k, int val);
+};	
+
+HashTable::HashTable() {
+   table = new HashNode*[SIZE]();
+}	
+
+int HashTable::hash(const int key) {
+   return key%SIZE;
+}	
+HashTable::~HashTable() {
+   delete [] table;
+}	
+
+int HashTable::search(int key) {
+   const int hash_ = hash(key);
+   HashNode * temp = table[hash_];
+   while(temp && temp->key=key)
+      temp = temp->next;	   
+}	
+

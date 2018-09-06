@@ -1,0 +1,19 @@
+struct HeapNode {
+   int val
+   struct Node * left;
+   struct Node * right;
+};
+
+
+void insert(vector<int> &heap,int val) {
+   int i = heap.size();
+   heap.push(val);
+   while(!i && heap[i]>heap[i/2]){
+      int temp = heap[i];
+      heap[i] = heap[i/2];
+      heap[i/2] = temp;
+      i = i/2;
+  }
+}
+
+

@@ -1,0 +1,14 @@
+tornado.option.parse_command_line() starts the logging in tornado why? it parses the command line for looging configuration. even if the values are not given it stats logging with default options.
+
+
+
+In tornado, logging is enabled at three levels:
+1)- tornado.access: per-request logging
+2)- tornado.application: logging of errors from application code.
+3)- tornado.general: general purpose logging.
+
+By default three logger objects are created using the logging python module with default level NOSET (lowest) which directs a logger object to process all the event.
+genrally info(), warning(), error(), debug() methods are used with the loggers. 
+Every logger object has its own level and these functions also have their levels. Whenever a logger is used to log any message, it is checked whether logger's level is higher lower or not than the used function's level.
+Now one can use tornado.option.parse_command_line() (in the begining of the __main__) and giving --logging=info|debug|warning|error|None (at command line) to override the default settings for the abov loggers. Along with enabling pretty log formatting, it also sets global log level of loggers in the process.
+Now if --logging=error is specified then all the logging messages using info(), warning(), debug() will be ineffective.

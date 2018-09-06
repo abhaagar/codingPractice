@@ -1,0 +1,66 @@
+Maze:
+  Rooms = 
+    ObjectArray:
+      I contain following objects:
+      Room:
+        _roomNumber = 1
+        _sides:
+        ObjectArray:
+          I contain following objects:
+          Wall:
+            MapSite:
+              Object:
+                Id = 0
+          Wall:
+            MapSite:
+              Object:
+                Id = 0
+          Door:
+            _room1 = 1
+            _room2 = 2
+            _isOpen = true
+            MapSite:
+              Object:
+                Id = 0
+          Wall:
+            MapSite:
+              Object:
+                Id = 0
+          Object:
+            Id = 0
+        MapSite:
+          Object:
+            Id = 0
+      Room:
+        _roomNumber = 2
+        _sides:
+        ObjectArray:
+          I contain following objects:
+          Wall:
+            MapSite:
+              Object:
+                Id = 0
+          Wall:
+            MapSite:
+              Object:
+                Id = 0
+          Wall:
+            MapSite:
+              Object:
+                Id = 0
+          Door:
+            _room1 = 1
+            _room2 = 2
+            _isOpen = true
+            MapSite:
+              Object:
+                Id = 0
+          Object:
+            Id = 0
+        MapSite:
+          Object:
+            Id = 0
+      Object:
+        Id = 0
+  Object:
+    Id = 0

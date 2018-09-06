@@ -1,0 +1,5 @@
+ACID:
+Atomicity: The effect of execution of a transaction shold be none or whole.
+Consistency: Database should be in correct store.
+Isolation: The effect of execution of mutiple transaction should be as if all of them were executed in isolation.
+Durability: The effect of executed transaction should be durable.

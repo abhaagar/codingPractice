@@ -1,0 +1,17 @@
+int partition(int **nums,int start, int end, int k) {
+   int tempStart = start, tempEnd = end;
+   int pivot = start;
+   while(tempStart<tempEnd) {
+      if((*array)[tempStart]<(*array][pivot])
+
+   }
+
+
+}
+
+
+int main() {
+
+
+   return 0;
+}

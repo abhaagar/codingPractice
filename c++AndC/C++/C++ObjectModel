@@ -1,0 +1,72 @@
+There are two aspects to the C++ Object Model: 
+1. The direct support for object-oriented programming provided within the language.
+2. The underlying mechanisms by which this support is implemented.
+
+The underlying mechanisms by which to implement the Object Model are not prescribed by the language 
+
+Chapter 1:
+---------
+The C++ implementations of a 3D point are more complicated than their C counterpart.
+Layout Costs for Adding Encapsulation:
+--------------------------------------
+There are no additional layout costs for supporting the class Point3d. The three coordinate data members are directly contained 
+within each class object, as they are in the C struct. The member functions, although included in the class declaration, are not reflected in the object layout; one copy only of each non-inline member function is generated. Each inline function has either zero or one definition of itself generated within each module in which it is used. The Point3d class has no space or runtime penalty in supporting encapsulation. As you will see, the primary layout and access-time overheads within C++ are associated with the virtuals,
+that is, 
+1)- The virtual function mechanism in its support of an efficient run-time binding, and 
+2)- A virtual base class in its support of a single, shared instance of a base class occurring multiple times 
+    within an inheritance hierarchy.
+There is also additional overhead under multiple inheritance in the conversion between a derived class and its second or subsequent base class. In general, however, there is no inherent reason a program in C++ need be any larger or slower than its equivalent C program. 
+
+A Simple Object Model:
+----------------------
+an object is a sequence of slots, where each slot points to a member. The members are assigned a slot in the order of their declarations. There is a slot for each data or function member.
+
+C++ Object Model:
+-----------------
+Nonstatic data members are allocated directly within each class object. Static data members are stored outside the individual class object. Static and nonstatic function members are also hoisted outside the class object. Virtual functions are supported in two steps: 
+  1. A table of pointers to virtual functions is generated for each class (this is called the virtual table). 
+  2. A single pointer to the associated virtual table is inserted within each class object (traditionally, this has been called the 
+     vptr). The setting, resetting, and not setting of the vptr is handled automatically through code generated within each class 
+     constructor, destructor, and copy assignment operator. The type_info object associated with each class in support of runtime 
+     type identification (RTTI) is also addressed within the virtual table, usually within the table's first slot. 
+
+In the case of virtual inheritance, only a single occurrence of the base class is maintained (called a subobject) regardless of how many times the class is derived from within the inheritance chain. iostream, for example, contains only a single instance of the virtual ios base class.
+
+Expension of C++ Program:
+-------------------------
+X foobar()
+{
+ X xx;
+ X *px = new X;
+ // foo() is virtual function
+ xx.foo();
+ px->foo();
+ delete px;
+ return xx;
+}; 
+
+// Pseudo C++ code
+void foobar( X &_result )
+{
+ // construct _result
+ // _result replaces local xx ...
+ _result.X::X();
+ // expand X *px = new X;
+ px = _new( sizeof( X ));
+ if ( px != 0 )
+ px->X::X();
+ // expand xx.foo(): suppress virtual mechanism
+ // replace xx with _result
+ foo( &_result );
+ // expand px->foo() using virtual mechanism
+ ( *px->_vtbl[ 2 ] )( px )
+ // expand delete px;
+ if ( px != 0 ) {
+ ( *px->_vtbl[ 1 ] )( px ); // destructor
+ _delete( px );
+ }
+ // replace named return statement
+ // no need to destroy local object xx
+ return;
+}; 
+

@@ -1,0 +1,40 @@
+- FILTER – this is the default table, which contains the built in chains for:
+   - INPUT  – packages destined for local sockets
+   - FORWARD – packets routed through the system
+   - OUTPUT – packets generated locally
+- NAT – a table that is consulted when a packet tries to create a new connection. It has the following built-in:
+   - PREROUTING – used for altering a packet as soon as it’s received
+   - OUTPUT – used for altering locally generated packets
+   - POSTROUTING – used for altering packets as they are about to go out
+- MANGLE – this table is used for packet altering. 
+  Until kernel version 2.4 this table had only two chains, but they are now 5:
+   - PREROUTING – for altering incoming connections
+   - OUTPUT – for altering locally generated  packets
+   - INPUT – for incoming packets
+   - POSTROUTING – for altering packets as they are about to go out
+   - FORWARD – for packets routed through the box
+
+- Start/Stop/Restart iptables Firewall
+  sysctl start/stop/restart iptables 
+- check all (or partial) iptables rules:
+  iptables -L -n -v
+  iptables -L INPUT -n -v
+- block Specific IP address
+  iptables -A INPUT -s <ip> -j DROP/REJECT
+  iptables -A INPUT -p tcp -s <ip> -j DROP/REJECT
+- Unblock IP address 
+  iptables -A INPUT -s <ip> -j ACCEPT
+  iptables -D INPUT -s <ip> -j DROP/REJECT
+- block specific port 
+  iptables -A INPUT --dport <port> -j ACCEPT
+  iptables -A OUTPUT --dport <port> -j DROP
+- allow specific network range on particular port
+  iptables -A OUTPUT --dport 22 -d 192.168.100.0/24 -j ACCEPT
+- block facebook
+  iptable -A OUTPUT -p tcp -d facebook.com -j REJECT/DROP
+- setup port forwarding
+  iptable -t nat -A PREROUTING --dport <port> -j REDIRECT --to-port <port>
+- block network flood on apache port
+  iptables -A INPUT -p tcp --dport 80 -m limit --limit 100/minute --limit-burst 200 -j ACCEPT
+- 
+

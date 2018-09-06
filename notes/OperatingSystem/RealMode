@@ -1,0 +1,7 @@
+Real Mode:
+- Without any address space access protection.
+- every process was vulnerable while not running.
+
+Protected Mode:
+- Address space access protection provided by processor itself.
+- 

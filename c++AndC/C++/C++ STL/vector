@@ -1,0 +1,39 @@
+1)- Vectors are same as dynamic arrays with the ability to resize itself automatically when an element is inserted or deleted, with their storage being handled automatically by the container. 
+2)- Vector elements are placed in contiguous storage so that they can be accessed and traversed using iterators. 
+3)- In vectors, data is inserted at the end. Inserting at the end takes differential time, as sometimes there may be a need of extending the array.
+4)- Removing the last element takes only constant time, because no resizing happens. 
+5)- Inserting and erasing at the beginning or in the middle is linear in time.
+
+Constructor:
+1)- std::vector<int> first;                                // empty vector of ints
+2)- std::vector<int> second (4,100);                       // four ints with value 100
+3)- std::vector<int> third (second.begin(),second.end());  // iterating through second
+4)- std::vector<int> fourth (third);                       // a copy of third
+5)- int myints[] = {16,2,77,29};
+  std::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+
+Iterators
+1. begin() – Returns an iterator pointing to the first element in the vector
+2. end() – Returns an iterator pointing to the theoretical element that follows last element in the vector
+3. rbegin() – Returns a reverse iterator pointing to the last element in the vector (reverse beginning). It moves from last to first element
+4. rend() – Returns a reverse iterator pointing to the theoretical element preceding the first element in the vector (considered as reverse end)
+
+vector Internals:
+----------------
+- It is not safe to keep address to any vector element as due to resizing the old addresses may get invalidated.
+- Little overhead in terms of memory needed to maintain internal state.
+- Internal buffer may not shrink when elements are deleted.
+- use the reserve method on vector to pre-allocate the internal buffer to minimise the requirement to reallocate the internal buffer.
+- random access so ideal for implementing constructs that require low latency reads.
+
+Consider using a vector if:
+---------------------------
+- you need to store data when you have a rough idea, in advance, of the number of items
+data can be either added all in one go or can be appended to the existing data
+- if you want to be able to access the contents in any order
+
+Avoid using a vector if:
+------------------------
+- you need to do frequent inserts or deletes to anywhere other then the back of the vector
+- you do not know, in advance, roughly how much data you plan to put in it
+

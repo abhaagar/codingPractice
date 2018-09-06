@@ -1,0 +1,19 @@
+static_cast<Type*>(ptr)
+-----------------------
+- performed at compile time.
+- perform the cast if the type types are related otherwise get compiler error.
+
+
+dynamic_cast<Type*>(ptr)
+------------------------
+- performed at run time.
+
+Casts can go in two directions:
+- base to derived (B2D).
+   - not allowed implicitly and must done use proper cast operator.
+- derived to base (D2B).
+   - it is simple and allowed implicitly.
+
+
+
+

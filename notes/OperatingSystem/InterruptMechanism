@@ -1,0 +1,81 @@
+- APIC (Application Programmable Interrupt Controller) 
+  - informs the processor of any external interrupt like key stroke in keyboard.
+  - also decides what interrupt goes where, in terms of cores.
+
+Interrupts:
+- Devices require a prompt response from the CPU when various events occur, even when the CPU is busy running a program.
+- A mechanism to gain CPU's attention.
+
+Types of Interrupts:
+Asynchronous:
+  - outside of currently executing process for e.g device even handling.
+Synchronous:
+  - Faults, Traps, Aborts, SysCalls
+  - Faults:
+    - instruction is illegal
+      -: writing to read-only section, reading from absent section, executing a privileged instruction.
+    - detected before incrementing the IP.
+    - If problem can be remdied, then CPU can just resume the its execution cycle for e.g
+         reading from swapped out page is fixed and execution is continued.
+  - Traps:
+    - execution control by debugger.
+
+Interrupt Descriptor Table (IDT) vs Interrupt Vector Table(IVT)
+---------------------------------------------------------------
+- Both have mapping of Interrupt Number/Identifier to Interrupt Handler
+- Real Mode : IVT
+- Protected Mode : IDT
+
+STACK OVERFLOW:
+---------------
+---------------
+
+CPUs don't poll for interrupts, at least not in a software sense. With respect to software, interrupts are asynchronous events.
+
+What happens is that hardware within the CPU recognizes the interrupt request, which is an electrical input on an interrupt line, and in response, sets aside the normal execution of events to respond to the interrupt. In most modern CPUs, what happens next is determined by a hardware handshake particular to the type of CPU, but most of them receive a number of some kind from the interrupting device. That number can be 8 bits or 32 or whatever, depending on the design of the CPU. The CPU then uses this interrupt number to index into the interrupt vector table, to find an address to begin execution of the interrupt service routine. Once that address is determined, (and the current execution context is safely saved to the stack) the CPU begins executing the ISR.
+
+When two devices share an interrupt request line, they can cause different ISRs to run by returning a different interrupt number during that handshaking process. If you have enough vector numbers available, each interrupting device can use its own interrupt vector.
+
+But two devices can even share an interrupt request line and an interrupt vector, provided that the shared ISR is clever enough to go back to all the possible sources of the given interrupt, and check status registers to see which device requested service.
+
+A little more detail
+
+Suppose you have a system composed of a CPU, and interrupt controller, and an interrupting device. In the old days, these would have been separate physical devices but now all three might even reside in the same chip, but all the signals are still there inside the ceramic case. I'm going to use a powerPC (PPC) CPU with an integrated interrupt controller, connected to a device on a PCI bus, as an example that should serve nicely.
+
+Let's say the device is a serial port that's transmitting some data. A typical serial port driver will load bunch of data into the device's FIFO, and the CPU can do regular work while the device does its thing. Typically these devices can be configured to generate an interrupt request when the device is running low on data to transmit, so that the device driver can come back and feed more into it.
+
+The hardware logic in the device will expect a PCI bus interrupt acknowledge, at which point, a couple of things can happen. Some devices use 'autovectoring', which means that they rely on the interrupt controller to see to it that the correct service routine gets selected. Others will have a register, which the device driver will pre-program, that contains an interrupt vector that the device will place on the data bus in response to the interrupt acknowledge, for the interrupt controller to pick up.
+
+A PCI bus has only four interrupt request lines, so our serial device will have to assert one of those. (It doesn't matter which at the moment, it's usually somewhat slot dependent..) Next in line is the interrupt controller (e.g. PIC/APIC), that will decide whether to acknowledge the interrupt based on mask bits that have been set in its own registers. Assuming it acknowledges the interrupt, it either then obtains the vector from the interrupting device (via the data bus lines), or may if so programmed use a 'canned' value provided by the APIC's own device driver. So far, the CPU has been blissfully unaware of all these goings-on, but that's about to change.
+
+Now it's time for the interrupt controller to get the attention of the CPU core. The CPU will have its own interrupt mask bit(s) that may cause it to just ignore the request from the PIC. Assuming that the CPU is ready to take interrupts, it's now time for the real action to start. The current instruction usually has to be retired before the ISR can begin, so with pipelined processors this is a little complicated, but suffice it to say that at some point in the instruction stream, the processor context is saved off to the stack and the hardware-determined ISR takes over.
+
+Some CPU cores have multiple request lines, and can start the process of narrowing down which ISR runs via hardware logic that jumps the CPU instruction pointer to one of a handful of top level handlers. The old 68K, and possibly others did it that way. The powerPC (and I believe, the x86) have a single interrupt request input. The x86 itself behaves a bit like a PIC, and can obtain a vector from the external PIC(s), but the powerPC just jumps to a fixed address, 0x00000500.
+
+In the PPC, the code at 0x0500 is probably just going to immediately jump out to somewhere in memory where there's room enough for some serious decision making code, but it's still the interrupt service routine. That routine will first go to the PIC and obtain the vector, and also ask the PIC to stop asserting the interrupt request into the CPU core. Once the vector is known, the top level ISR can case out to a more specific handler that will service all the devices known to be using that vector. The vector specific handler then walks down the list of devices assigned to that vector, checking interrupt status bits in those devices, to see which ones need service.
+
+When a device, like the hypothetical serial port, is found wanting service, the ISR for that device takes appropriate actions, for example, loading the next FIFO's worth of data out of an operating system buffer into the port's transmit FIFO. Some devices will automatically drop their interrupt request in response to being accessed, for example, writing a byte into the transmit FIFO might cause the serial port device to de-assert the request line. Other devices will require a special control register bit to be toggled, set, cleared, what-have-you, in order to drop the request. There are zillions of different I/O devices and no two of them ever seem to do it the same way, so it's hard to generalize, but that's usually the way of it.
+
+Now, obviously there's more to say - what about interrupt priorities? what happens in a multi-core processor? What about nested interrupt controllers? But I've burned enough space on the server. Hope any of this helps.
+
+
+Segfault Processing:
+--------------------
+All modern CPUs have the capacity to interrupt the currently-executing machine instruction. They save enough state (usually, but not always, on the stack) to make it possible to resume execution later, as if nothing had happened (the interrupted instruction will be restarted from scratch, usually). Then they start executing an interrupt handler, which is just more machine code, but placed at a special location so the CPU knows where it is in advance. Interrupt handlers are always part of the kernel of the operating system: the component that runs with the greatest privilege and is responsible for supervising execution of all the other components.1,2
+
+Interrupts can be synchronous, meaning that they are triggered by the CPU itself as a direct response to something the currently-executing instruction did, or asynchronous, meaning that they happen at an unpredictable time because of an external event, like data arriving on the network port. Some people reserve the term "interrupt" for asynchronous interrupts, and call synchronous interrupts "traps", "faults", or "exceptions" instead, but those words all have other meanings so I'm going to stick with "synchronous interrupt".
+
+Now, most modern operating systems have a notion of processes. At its most basic, this is a mechanism whereby the computer can run more than one program at the same time, but it is also a key aspect of how operating systems configure memory protection, which is is a feature of most (but, alas, still not all) modern CPUs. It goes along with virtual memory, which is the ability to alter the mapping between memory addresses and actual locations in RAM. Memory protection allows the operating system to give each process its own private chunk of RAM, that only it can access. It also allows the operating system (acting on behalf of some process) to designate regions of RAM as read-only, executable, shared among a group of cooperating processes, etc. There will also be a chunk of memory that is only accessible by the kernel.3
+
+As long as each process accesses memory only in the ways that the CPU is configured to allow, memory protection is invisible. When a process breaks the rules, the CPU will generate a synchronous interrupt, asking the kernel to sort things out. It regularly happens that the process didn't really break the rules, only the kernel needs to do some work before the process can be allowed to continue. For instance, if a page of a process's memory needs to be "evicted" to the swap file in order to free up space in RAM for something else, the kernel will mark that page inaccessible. The next time the process tries to use it, the CPU will generate a memory-protection interrupt; the kernel will retrieve the page from swap, put it back where it was, mark it accessible again, and resume execution.
+
+But suppose that the process really did break the rules. It tried to access a page that has never had any RAM mapped to it, or it tried to execute a page that is marked as not containing machine code, or whatever. The family of operating systems generally known as "Unix" all use signals to deal with this situation.4 Signals are similar to interrupts, but they are generated by the kernel and fielded by processes, rather than being generated by the hardware and fielded by the kernel. Processes can define signal handlers in their own code, and tell the kernel where they are. Those signal handlers will then execute, interrupting the normal flow of control, when necessary. Signals all have a number and two names, one of which is a cryptic acronym and the other a slightly less cryptic phrase. The signal that's generated when the a process breaks the memory-protection rules is (by convention) number 11, and its names are SIGSEGV and "Segmentation fault".5,6
+
+An important difference between signals and interrupts is that there is a default behavior for every signal. If the operating system fails to define handlers for all interrupts, that is a bug in the OS, and the entire computer will crash when the CPU tries to invoke a missing handler. But processes are under no obligation to define signal handlers for all signals. If the kernel generates a signal for a process, and that signal has been left at its default behavior, the kernel will just go ahead and do whatever the default is and not bother the process. Most signals' default behaviors are either "do nothing" or "terminate this process and maybe also produce a core dump." SIGSEGV is one of the latter.
+
+So, to recap, we have a process that broke the memory-protection rules. The CPU suspended the process and generated a synchronous interrupt. The kernel fielded that interrupt and generated a SIGSEGV signal for the process. Let's assume the process did not set up a signal handler for SIGSEGV, so the kernel carries out the default behavior, which is to terminate the process. This has all the same effects as the _exit system call: open files are closed, memory is deallocated, etc.
+
+Up till this point nothing has printed out any messages that a human can see, and the shell (or, more generally, the parent process of the process that just got terminated) has not been involved at all. SIGSEGV goes to the process that broke the rules, not its parent. The next step in the sequence, though, is to notify the parent process that its child has been terminated. This can happen in several different ways, of which the simplest is when the parent is already waiting for this notification, using one of the wait system calls (wait, waitpid, wait4, etc). In that case, the kernel will just cause that system call to return, and supply the parent process with a code number called an exit status.7 The exit status informs the parent why the child process was terminated; in this case, it will learn that the child was terminated due to the default behavior of a SIGSEGV signal.
+
+The parent process may then report the event to a human by printing a message; shell programs almost always do this. Your crsh doesn't include code to do that, but it happens anyway, because the C library routine system runs a full-featured shell, /bin/sh, "under the hood". crsh is the grandparent in this scenario; the parent-process notification is fielded by /bin/sh, which prints its usual message. Then /bin/sh itself exits, since it has nothing more to do, and the C library's implementation of system receives that exit notification. You can see that exit notification in your code, by inspecting the return value of system; but it won't tell you that the grandchild process died on a segfault, because that was consumed by the intermediate shell process.
+    

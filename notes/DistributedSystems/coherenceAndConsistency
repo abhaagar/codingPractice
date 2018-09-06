@@ -1,0 +1,16 @@
+Memory Coherence:
+- Lets say a guy named D has 2 friends X and Y. 
+- D messages X asking dinner on friday at 7:00 pm. 
+- X is happy and says yes. D then messages Y asking for dinner on friday at 7:00 pm. 
+- Y is cool with it, all set. 
+- Now Y discovers he has meeting on friday at 7:00 with his manager which he can't reschedule. So he messages D asking him to shift the dinner to 8:00 pm. 
+- D gets the text and he is cool. Now at this point D and Y are one the same page (same dinner time) but no one has informed X. 
+- This is what cache coherency is all about. 
+- It's about making sure that every private copy is the same everywhere and if any changes are made, those changes are propagated to every private cache.
+
+Memory Consistency:
+- Here lets say D messages both X & Y about dinner on friday at 7:00 pm. 
+- A second later he realizes he has a meeting with his manager which he cant reschedule so he sents another message mentioning dinner at 8:00 pm. 
+- Now X gets the message in same order whereas Y gets the last message(dinner at 8:00 pm) first and then the first message(dinner at 7:00 pm). 
+- Now both X & Y have same information but in different order. 
+- This is memory consistency. It's not enough that a core sees the write happening to shared data, it's also important that they see the writes in the same order as other cores.

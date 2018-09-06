@@ -1,0 +1,24 @@
+http://www.cakesolutions.net/teamblogs/how-to-build-a-distributed-counter
+1)- we can have a single “user” incrementing the counter while the others push the increment
+   requests into a queue. It does improve throughput but the counter itself is not really
+   distributed
+2)- Now let’s make this counter really distributed and split it: instead of one “writer” 
+    for the whole system let’s have each user write to its own counter. Now each user 
+    (or node) can write when it wants as it only changes its very own value. 
+    And we can have parallel increments. 
+3)- Ok that looks really distributed now but how to get the counter’s value? Well we need
+    to sum up all the individual counters. So every node needs to know every other node’s 
+    value to get a “global” view of the counter. Let’s have the nodes broadcast their values.
+4)- Interesting, look’s like we’re getting somewhere but a distributed world is not 100% 
+    reliable:  messages can get lost, or be delayed, Solving message lost is not a trivial task 
+    Let’s consider
+        On the sender side nodes can regularly broadcast their state.
+    On the receiving side we need a way to find out what to do with duplicate messages. 
+    Again it’s not too hard as a node can compare the received value with the value it
+    already knows for this node. It the values are the same it’s a duplicate message 
+    otherwise it’s a new one so update the node’s value.
+    One last thing to solve: delayed messages.
+    This is the tricky part - how to know if the received message is stale?
+........................
+
+

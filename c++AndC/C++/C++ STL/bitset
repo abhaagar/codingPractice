@@ -1,0 +1,15 @@
+bitset:
+- very less space.
+- used when if no count has to be maintained.
+  - declare
+    bitset<32> a;
+    bitset<32> a(20);
+    bitset<32> a(string("1101"));
+  - set/reset a bit
+    a.set(2)
+    a.reset(3)
+    a.flip(4)
+  - count set bit 
+    a.count()
+    
+  

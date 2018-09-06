@@ -1,0 +1,56 @@
+#include"binaryTree.h"
+#include<stdbool.h>
+
+struct BinaryTreeNode*
+findPred(struct BinaryTreeNode* node, int key, struct BinaryTreeNode* ancestor) {
+   struct BinaryTreeNode* pred = ancestor;
+   if(node->num==key) {
+      if(node->left) {
+         while(node->right) 
+            node = node->right;
+         pred = node;
+      }
+   }  else {
+     if(node->num>key) {
+        ancestor = node;
+        node = node->left;
+     } else {
+        ancestor = node;
+        node = node->right;
+     }
+     findPred(node,key,ancestor);
+
+   }
+   return pred;
+}
+
+struct BinaryTreeNode*
+findSucc(struct BinaryTreeNode* node) {
+   while(node->left) 
+      node = node->left;
+   return node; 
+}
+
+struct  BinaryTreeNode*
+findParentNode(struct BinaryTreeNode* parent,struct BinaryTreeNode* node, int num){
+   if(node->num==num) {
+      return parent;
+   } else if(node->num>num) {
+      return findParentNode(node,node->left,num);
+   } else {
+      return findParentNode(node,node->right,num);
+   }
+}
+
+int main() {
+   struct BinaryTreeNode* root = createSubTree(4);
+   struct BinaryTreeNode* temp = NULL;
+   if(root->num==key) {
+      int pred = -1,succ = -1;
+      struct BinaryTreeNode* pred = findPred(root,key,NULL);
+      struct BinaryTreeNode* succ = findSucc(root,key,NULL);
+      printf("predecessor: %d\n",pred->num);
+      printf("succeessor: %d\n",succ->num);
+   } 
+   return 0;
+}

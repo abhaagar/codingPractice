@@ -1,0 +1,27 @@
+Components:
+1)- Storage
+2)- Scalability
+3)- Web Server
+4)- Cache
+5)- Recommendation System
+
+Storage and Data model:
+-----------------------
+Schema:
+User - id, name, email, password, address, age, registrationDate
+Channel - id, ownerId, name
+Subscriber - id, userId, channelId
+Video - id, title, description, size, category, likes, viewCounts
+Comments - id, videoId, userId,
+category- id, name
+Video and Image Storage:
+  - Youtube has similar number of images as videos to serve in the forms of thumbnails.
+  - Use CDN (Content Delivery Network) to serve video images. CDN employs various techniques
+    like replication, location specific storage, caching.
+  - Hosting all the videos in CDN may be infeasible because of cost so use only popular videos
+    to be served by CDN and rest from your on servers.
+Web Server:
+ - To scale you can have multiple replicas and build a load-balancer on top of them.
+ - Server is mainly responsible for handling user requests and return response. The site should 
+   have fewer heavy logics and everything else should be built into separate servers.
+   For example, recommendation system.

@@ -1,0 +1,110 @@
+http://spyhce.com/blog/cpython-data-structures
+https://www.laurentluce.com/posts/python-dictionary-implementation/
+
+PyObject:
+---------
+typedef struct _object {
+    PyObject_HEAD
+} PyObject;
+
+PyObject_HEAD is a macro that, expanded, looks like this:
+struct _object *_ob_next;
+struct _object *_ob_prev;
+Py_ssize_t ob_refcnt;
+struct _typeobject *ob_type;
+
+All objects that live in Python are represented as a linked list (_ob_next, _ob_prev), have a type and a reference count (that is used to determine if the object should be garbage collected). Whenever a new type is defined, the structure must comply to the following pattern:
+
+typedef struct PyMyObject {
+       PyObject_HEAD
+       ...
+}
+
+Integer:
+--------
+Integer type is represented by the following structure, which quite ordinary:  
+typedef struct { 
+  PyObject_HEAD 
+  long ob_ival;  
+} PyIntObject;
+Python creates, at start-up, a static list of PyIntObject so that the overhead of malloc-ing is eliminated. When this static list fills up, new address space will be reserved on the heap for additional integers.
+
+
+String:
+------- 
+String type is represented by the following structure: 
+
+typedef struct { 
+  PyObject_VAR_HEAD
+  long ob_shash;
+  int ob_sstate;
+  char ob_sval[1];
+} PyStringObject;
+
+where
+    ob_ shash is the hash of string or -1 if the string is empty
+    ob_sval is the actual data stored in the string
+    ob_sstate indicates whether or not the string is interned
+
+List:
+----- 
+This is the underlying structure of a Python list:   
+typedef struct {
+  PyObject_VAR_HEAD
+  PyObject **ob_item;
+  Py_ssize_t allocated;
+} PyListObject;
+
+where 
+    ob_item is a list of pointers to the elements of the list
+    allocated is the number of slots allocated in memory
+
+The most interesting aspect of Python lists is the resize policy. It is designed in such a way that resizing is not needed too often. This is the resize policy implemented, as found in listobject.c:  
+
+/* This over-allocates proportional to the list size, making room
+ * for additional growth.  The over-allocation is mild, but is
+ * enough to give linear-time amortized behavior over a long
+ * sequence of appends() in the presence of a poorly-performing
+ * system realloc().
+ * The growth pattern is:  0, 4, 8, 16, 25, 35, 46, 58, 72, 88, ...
+/*
+new_allocated = (newsize >> 3) + (newsize < 9 ? 3 : 6);
+
+The list is also shrunk if the number of elements is lower than half the allocated elements.
+
+Dictionaries
+ 
+
+The dictionary type has the following structures as its underlying implementation:  
+
+typedef struct {
+  Py_ssize_t me_hash;
+  PyObject *me_key;
+  PyObject *me_value;
+} PyDictEntry;
+
+typedef struct _dictobject PyDictObject;
+struct _dictobject {
+  PyObject_HEAD
+  Py_ssize_t ma_fill; /* # Active + # Dummy */
+  Py_ssize_t ma_used; /* # Active */
+  Py_ssize_t ma_mask; /* equal to size of ma_table - 1; calc index*/
+  PyDictEntry *ma_table;
+  PyDictEntry *(*ma_lookup)(PyDictObject *mp, PyObject *key, long hash);
+  PyDictEntry ma_smalltable[PyDict_MINSIZE];
+};
+
+Dictionaries use hash tables, which are basically just some arrays, to store their data. This structure uses two hash tables, ma_smalltable, which is the smallest possible table, and ma_table. ma_table points to ma_smalltable if the dict is very small, else to additional malloc'ed memory. ma_lookup is a pointer to the function used to search for a specific key and it varies depending on the type of the key.
+
+The dictionary may have active or dummy slots . In the active slots there is actual data and the slots where data used to be but was it erased are called dummy slots. ma_fill holds the active + dummy slots count while ma_used counts only the active slots. These attributes are used to make the decision of resizing or not the hash table. 
+
+The main performance factor for dictionaries is the hashing function that is used for the keys and the conflict resolution strategy. Python is not using any complex hashing function; instead, is uses a more advanced collision resolution strategy (open addressing) that produces pseudo-random values at which to probe for free slots. For a detailed explanation of this strategy checkout the beginning of the source file dictobject.c and this article. 
+
+Best case scenario for searching a key is a complexity O(1) but this changes as the hash tables fills up and less slots are free for holding data. The best performance is achieved from a hash table if it is less then two thirds full, meaning that the sum of active plus dummy slots needs to be less than 2/3 of its size. When this threshold is reached, a resize takes place in order to keep the performance as high as possible. The resize policy for dictionaries is as follows: 
+
+    if ma_used < 5000 then quadruple the size of the dictionary
+    else, double the the size of the dictionary
+
+Lets consider that we want to build a dictionary that holds five keys. We add all the keys up until the forth and when we add the fifth, a check will be made to see if the dictionary is more than two thirds full, which it is, and it will resize it to 32 slots. Considering that we just wanted to add 5 keys to this hash table, the new allocated memory for it is six times higher than the minimum. This a a very useful aspect to consider when working with dictionaries. 
+
+Given Python's dynamic nature, all objects use a dictionary to hold their attributes and these dictionaries can be modified at any time. Consider an application where thousands of objects are instantiated and they all have only five attributes, as in the example above; this will result in allocating six times as much memory than necessary. One might expect the ability to somehow go around this and spare that extra memory. For this, you can add the attribute __slots__ which can take a string, iterable or sequence with names of the attributes of the class. These attributes will be added to a static structure that may no longer be modified. 

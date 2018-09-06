@@ -1,0 +1,173 @@
+
+
+Chapter: 2
+K E Y   I D E A
+- Pack information into your names.
+- It’s better to be clear and precise than to be cute.
+
+A D V I C E
+- The name retval doesn’t pack much information. Instead, use a name that describes the variable’s value.
+- The name tmp should be used only in cases when being short-lived and temporary is the most important fact about that variable.
+- If you’re going to use a generic name like tmp, it, or retval, have a good reason for doing so.
+
+-> Variable name is little commment
+Prefer Concrete Names over Abstract Names:
+Example: DISALLOW_EVIL_CONSTRUCTORS
+Example: --run_locally -> --extra-debugging, --use_local_database
+
+
+Attaching Extra Information to a Name:
+string id; // Example: "af84ef845cd8" -> hex_id;
+Values with Units:
+var start; -> var start_ms;
+
+Encoding Other Important Attributes:
+unsecuredUrl, untrustedMessageBody
+
+How Long Should a Name Be?
+Shorter Names Are Okay for Shorter Scope
+
+Acronyms and Abbreviations:
+BEManager -> BackEndManager
+str,doc,eval is fine
+
+Summary
+The single theme for this chapter is: 
+pack information into your names. By this, we mean that the reader can extract a lot of information just from reading the name.
+Here are some specific tips we covered:
+• Use specific words—
+   for example, instead of Get, words like Fetch or Download might bebetter, depending on the context.
+• Avoid generic names
+   like tmp and retval, unless there’s a specific reason to use them.
+• Use concrete names
+   that describe things in more detail—the name ServerCanStart() isvague compared to CanListenOnPort()
+• Attach important details to variable names—for example, append _ms to a variable whose value is in milliseconds or prepend raw_ to an unprocessed variable that needsescaping.
+• Use longer names for larger scopes—don’t use cryptic one- or two-letter names for variables that span multiple screens; shorter names are better for variables that span only
+  a few lines.
+• Use capitalization, underscores, and so on in a meaningful way—for example, you can append “_” to class members to distinguish them from local variables.
+
+Chapter 3: Names That Can’t Be Misconstrued
+
+Actively scrutinize your names by asking yourself, “What other meanings could someone interpret from this name?”
+Summary
+The best names are ones that can’t be misconstrued—the person reading your code will understand it the way you meant it, and no other way. Unfortunately, a lot of English words
+are ambiguous when it comes to programming, such as filter, length, and limit. Before you decide on a name, play devil’s advocate and imagine how your name might bemisunderstood. 
+The best names are resistant to misinterpretation. When it comes to defining an upper or lower limit for a value, max_ and min_ are good prefixesto use. For inclusive ranges, 
+first and last are good. For inclusive/exclusive ranges, begin andend are best because they’re the most idiomatic. When naming a boolean, use words like is and has to make it clear that it’s a boolean. Avoid negated terms (e.g., disable_ssl).
+Beware of users’ expectations about certain words. For example, users may expect get() orsize() to be lightweight methods.
+
+Chapter 4: Aesthetics
+K E Y   I D E A
+- Actively scrutinize your names by asking yourself, “What other meanings could someone interpret from this name?”
+
+Summary
+Everyone prefers to read code that’s aesthetically pleasing. By “formatting” your code in a consistent, meaningful way, you make it easier and faster to read.
+Here are specific techniques we discussed:
+• If multiple blocks of code are doing similar things, try to give them the same silhouette.
+• Aligning parts of the code into “columns” can make code easy to skim through.
+• If code mentions A, B, and C in one place, don’t say B, C, and A in another. Pick a meaningful order and stick with it.
+• Use empty lines to break apart large blocks into logical “paragraphs.”
+
+Chapter 5: Knowing What to Comment
+K E Y   I D E A
+- The purpose of commenting is to help the reader know as much as the writer did.
+- Don’t comment on facts that can be derived quickly from the code itself.
+
+Summary
+The purpose of a comment is to help the reader know what the writer knew when writing the code. This whole chapter is about realizing all 
+the not-so-obvious nuggets of information you have about the code and writing those down. What not to comment:
+•   Facts that can be quickly derived from the code itself.
+•   “Crutch comments” that make up for bad code (such as a bad function name)—fix the code instead.
+Thoughts you should be recording include:
+•   Insights about why code is one way and not another (“director commentary”).
+•   Flaws in your code, by using markers like TODO: or XXX:.
+•   The “story” for how a constant got its value.
+Put yourself in the reader’s shoes:
+•   Anticipate which parts of your code will make readers say “Huh?” and comment those.
+•   Document any surprising behavior an average reader wouldn’t expect.
+•   Use “big picture” comments at the file/class level to explain how all the pieces fit together.
+•   Summarize blocks of code with comments so that the reader doesn’t get lost in the details.
+
+Chapter 6:  Making Comments Precise and Compact
+K E Y   I D E A
+Comments should have a high information-to-space ratio.
+
+- Keep Comments Compact
+  // CategoryType -> (score, weight)
+- Avoid Ambiguous Pronouns
+- Describe Function Behavior Precisely
+  // Return the number of lines in this file.  ----> // Count how many newline bytes ('\n') are in the file.
+- Use Input/Output Examples That Illustrate Corner Cases
+- State the Intent of Your Code
+
+Summary
+This chapter is about writing comments that pack as much information into as small a space
+as possible. Here are the specific tips:
+•   Avoid pronouns like “it” and “this” when they can refer to multiple things.
+•   Describe a function’s behavior with as much precision as is practical.
+•   Illustrate your comments with carefully chosen input/output examples.
+•   State the high-level intent of your code, rather than the obvious details.
+•   Use inline comments (e.g.,Function(/* arg = */ ... ) ) to explain mysterious function arguments.
+•   Keep your comments brief by using words that pack a lot of meaning.
+
+Chapter 7: Making Control Flow Easy to Read
+Summary
+- There are a number of things you can do to make your code’s control flow easier to read.
+- When writing a comparison (while (bytes_expected > bytes_received)), it’s better to put the
+  changing value on the left and the more stable value on the right (while (bytes_received <bytes_expected)).
+- You can also reorder the blocks of an if/else statement. Generally, try to handle the positive/
+  easier/interesting case first. Sometimes these criteria conflict, but when they don’t, it’s a good
+  rule of thumb to follow.
+- Certain programming constructs, like the ternary operator (: ?), the do/while loop, and goto often result in unreadable code. It’s usually best not to use them, as clearer alternatives almost always exist.
+
+Chapter 8: Breaking Down Giant Expressions
+
+Summary
+Giant expressions are hard to think about. This chapter showed a number of ways to break them down so the reader can digest them piece by piece
+One simple technique is to introduce “explaining variables” that capture the value of some large subexpression. This approach has three benefits:
+•  It breaks down a giant expression into pieces.
+•  It documents the code by describing the subexpression with a succinct name.
+•  It helps the reader identify the main “concepts” in the code.
+Another technique is to manipulate your logic using De Morgan’s laws—this technique can sometimes rewrite a boolean expression in a cleaner way (e.g., if (!(a && !b))
+ turns into if (!a || b) ).
+We showed an example where a complex logical condition was broken down into tiny
+statements like “if (a < b) ...”. In fact, all of the improved-code examples in this chapter had if statements with no more than two values inside them. This setup is ideal. It may not always seem possible to do this—sometimes it requires “negating” the problem or considering the opposite of your goal.
+Finally, even though this chapter is about breaking down individual expressions, these same techniques often apply to larger blocks of code, too. So be aggressive in breaking down complex logic wherever you see it.
+
+Chapter 9: Extracting Unrelated Subproblems
+
+1.  The more variables there are, the harder it is to keep track of them all.
+2.  The bigger a variable’s scope, the longer you have to keep track of it.
+3.  The more often a variable changes, the harder it is to keep track of its current value.
+
+- Shrink the Scope of Your Variables
+- Prefer Write-Once Variables
+
+K E Y   I D E A
+- Make your variable visible by as few lines of code as possible.
+- The more places a variable is manipulated, the harder it is to reason about its
+current value.
+Summary
+This chapter is about how the variables in a program can quickly accumulate and become too much to keep track of. You can make your code easier to read by having fewer variables and making them as “lightweight” as possible. Specifically:
+• Eliminate variables that just get in the way. In particular, we showed a few examples of how to eliminate “intermediate result” variables by handling the result immediately.
+• Reduce the scope of each variable to be as small as possible. Move each variable to a place where the fewest lines of code can see it. Out of sight is out of mind.
+• Prefer write-once variables. Variables that are set only once (or const, final, or otherwise immutable) make code easier to understand.
+
+
+Chapter 10: Extracting Unrelated Subproblems
+Summary
+A simple way to think about this chapter is to separate the generic code from the project-specific code. As it turns out, most code is generic. By building a large set of libraries and helper functions to solve the general problems, what’s left will be a small core of what makes your program unique.
+The main reason this technique helps is that it lets the programmer focus on smaller, well-defined problems that are detached from the rest of your project. As a result, the solutions to those subproblems tend to be more thorough and correct. You might also be able to reuse them later.
+
+Chapter 11: One Task at a Time
+- Code should be organized so that it’s doing only one task at a time.
+
+Chapter 12: Turning Thoughts into Code
+- Describing Logic Clearly.
+- Knowing Your Libraries Helps.
+- Applying This Method to Larger Problems.
+- Applying the Method Recursively.
+
+Summary
+This chapter discussed the simple technique of describing your program in plain English and using that description to help you write more natural code. This technique is deceptively simple, but very powerful. Looking at the words and phrases used in your description can also help you identify which subproblems to break off.But this process of “saying things in plain English” is applicable outside of just writing code.
+For example, one college computer lab policy states that when a student needs help debugging his program, he first has to explain the problem to a dedicated teddy bear in the corner of the room. Surprisingly, just describing the problem aloud can often help the student figure out a solution. This technique is called “rubber ducking.”

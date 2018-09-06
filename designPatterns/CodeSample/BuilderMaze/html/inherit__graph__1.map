@@ -1,0 +1,10 @@
+<area shape="rect" href="$class_object.html" title="Object" alt="" coords="5,157,67,184">
+<area shape="rect" href="$class_map_site.html" title="MapSite" alt="" coords="127,56,196,83">
+<area shape="rect" href="$class_maze.html" title="Maze" alt="" coords="135,107,188,133">
+<area shape="rect" href="$class_maze_game.html" title="MazeGame" alt="" coords="116,157,207,184">
+<area shape="rect" href="$class_object_array.html" title="ObjectArray" alt="" coords="115,208,208,235">
+<area shape="rect" href="$class_object_link.html" title="ObjectLink" alt="" coords="119,259,204,285">
+<area shape="rect" href="$class_door.html" title="Door" alt="" coords="260,5,311,32">
+<area shape="rect" href="$class_room.html" title="Room" alt="" coords="257,56,313,83">
+<area shape="rect" href="$class_wall.html" title="Wall" alt="" coords="261,107,309,133">
+<area shape="rect" href="$class_bombed_wall.html" title="BombedWall" alt="" coords="364,107,460,133">

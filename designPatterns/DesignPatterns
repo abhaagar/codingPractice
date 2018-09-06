@@ -1,0 +1,20 @@
+Simple rules:
+   A "owns" B = Composition : B has no meaning or purpose in the system without A
+   A "uses" B = Aggregation : B exists independently (conceptually) from A
+
+Design Pattern:
+--------------
+Not readymade solution but tested templates for avoinding common issues in solving/implementing the set of applied problems.
+
+Creational Patterns
+Abstract Factor Pattern
+Structural Patterns
+Composite Design Pattern
+- Composite lets you treat objects and commpoisition of objects uniformly. It helps in organising the objects into tree structures to represent whole-part hierarchies.
+- You want clients to be able to ignore the difference between compositions of objects and individual objects. Clients will treat all objects in the composite structure uniformly.
+- The relationship modeled in composite design pattern is not of subclass but collection.
+- Main criterion which decides whether the Composite design pattern is applicable in particular case is the interface which exposes the operation. If we can define the same interface on a single element and on the collection, then the Composite pattern can be applied.
+- Example: Directories container entries, each of which could be a directory.
+Behavioral Patterns
+
+

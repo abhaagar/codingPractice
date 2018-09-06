@@ -1,0 +1,22 @@
+#include<iostream>
+
+int main() {
+   int N;
+   std::cin >> N;
+   int *array;
+   int min = array[0], max = array[0];
+   int maximumSoFar = 0;
+   for(int i=0; i<N; ++i) {
+      if(array[i]>max)
+         max = array[i];
+      if(array[i]<min) {
+         if(maxSoFar<max-array[i]) {
+            maxSoFar = max-array[i];
+            min = array[i];
+            max = array[i];
+         }
+      }
+   }
+   
+   return 0;
+}

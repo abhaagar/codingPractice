@@ -1,0 +1,46 @@
+#include<iostream>
+#include<stack>
+
+int main() {
+   int N;
+   std::cin >> N;
+   int *array=(int*)malloc(sizeof(int)*N);
+   int *leftGreater=(int*)malloc(sizeof(int)*N);
+   int *rightGreater=(int*)malloc(sizeof(int)*N);
+   int i = 1;
+   std::stack<int> s;
+   s.push(0);
+   while(i<N) {
+      while(array[i]<=s.top() && !s.empty()) {
+         rightSmaller[s.top()] = i-1;
+         s.pop();
+      }
+      s.push(array[i]);
+      ++i;
+   }
+   while(!s.empty()) {
+      rightSmaller[s.top()] = N-1;
+      s.top();
+   }
+   for(int i=0; i<N; ++i) {
+      std::cout << array[i]*(rightSmaller[i]-i] << std::endl;
+   }
+   i = N-2;
+   s.push(N-1);
+   while(i>=0) {
+      while(array[i]<=s.top() && !s.empty()) {
+         leftSmaller[s.top()] = i-1;
+         s.pop();
+      }
+      s.push(array[i]);
+      ++i;
+   }
+   while(!s.empty()) {
+      rightSmaller[s.top()] = 0;
+      s.top();
+   }
+   for(int i=0; i<N; ++i) {
+      std::cout << array[i]*(rightSmaller[i]-i] << std::endl;
+
+   return 0;
+}

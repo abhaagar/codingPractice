@@ -1,0 +1,40 @@
+Horizontal and Vertical scalling:
+ - with vertical scaling, your service may suffer in time of upgrades as the only machine may have to be offline.
+
+CAP Theorem
+In case of partitioning, there will be a trade off between Consistency and Availability.
+  Consistency: Every read receives the most recent write or an error.
+  Availability: Every request must be serviced with response (no error response) without any guarantee of most recent write.
+  Parition Tolerance: The system continues to operate in case of unfavourable network conditions.
+A plain english introduction to CAP Theorem:
+1)- “Remembrance Inc” Your new venture: (start service on single server)
+2)- You Scale up: (horizontal scalling)
+  i)- You and your wife both get an extension phone
+  ii)- Customers still dial (555)–55-REMEM and need to remember only one number
+  ii)- A pbx will route the a customers call to whoever is free and equally
+3)- You have your first “Bad Service”: (data inconsistency among servers)
+  - distributed system is not consistent! 
+  - There could always be a chance that a customer updates something which goes to either you or your wife 
+  - The next call from the customer is routed to another person there will not be a consistent reply from Remembrance Inc!
+4)- You fix the Consistency problem but Availability issue: (unfavourable network hinders the consistency)
+  - before declaring a write complete, successfully replicate the write to all the copies.
+  - Availability problem
+    - if an update request comes to me I will never be able to complete that call because even though 
+      I have written the update in my note book, I can never update you. 
+    - So I can never complete the call!”  
+5)- Fix to achieve Availability and Consistency
+   - don't wait for the write to be propogated to each copy
+   - have guarantee that eventually it will happen.
+
+AP System:
+ - An AP system is able to function during the network split, while being able to provide various forms of eventual consistency.
+ - There's several forms of eventual consistency. There's the "weak eventual consistency", where you may not be able to read your writes. 
+   - In the context of Dynamo-based key/value stores this actually only occurs as a failure condition: 
+     when the first node in the preference list for a key isn't available.
+
+ - Another form of eventual consistency is "read-your-writes" consistency, where by you use a quorum of R reads, 
+   W writes out of a total of N replicas and set R + W > N. 
+ - In this case you're guaranteed to be able to read your writes even if multiple nodes in the preference 
+   list for a key fail (as long as you're able to meet a quorum).
+
+

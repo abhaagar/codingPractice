@@ -1,0 +1,8 @@
+# Nmap 6.40 scan initiated Sun Sep  3 16:32:56 2017 as: nmap -PS -p1-1024 -oA healthMonk 52.220.132.186
+Nmap scan report for ec2-52-220-132-186.ap-southeast-1.compute.amazonaws.com (52.220.132.186)
+Host is up (0.043s latency).
+Not shown: 1023 filtered ports
+PORT   STATE SERVICE
+80/tcp open  http
+
+# Nmap done at Sun Sep  3 16:33:09 2017 -- 1 IP address (1 host up) scanned in 13.42 seconds

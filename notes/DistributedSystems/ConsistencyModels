@@ -1,0 +1,14 @@
+Consistency: 
+What processes can expect when RD/WR shared data concurrently.
+
+Consistency Model:
+Contract between a distributed data system and processes constituting its applications.
+
+What are some Consistency Models:
+1)- Strict Consistency
+2)- Sequential Consistency
+3)- Causal Consistency
+4)- Eventual Coonsistency 
+1) to 4), less intuitive, harder to program.
+        , More fasible, scalable, efficient.
+

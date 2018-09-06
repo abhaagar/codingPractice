@@ -1,0 +1,11 @@
+<area shape="rect" href="$class_maze.html#1762552783e3bf23111808ed5904496b" title="Maze::AddRoom" alt="" coords="279,56,399,83">
+<area shape="rect" href="$class_maze.html#98fbcca2c54e108e5b4bc4b0efbd4606" title="Maze::RoomNo" alt="" coords="281,157,396,184">
+<area shape="rect" href="$class_room.html#ed1e661541b595e9c3093486ca1b51af" title="Room::SetSide" alt="" coords="283,107,395,133">
+<area shape="rect" href="$class_room.html#c2bae6ede365de8046a3ca46c1a5f6ea" title="Room::GetRoomNo" alt="" coords="449,56,588,83">
+<area shape="rect" href="$class_object_array.html#d80d4abdd06db8ec12b61443937c522e" title="ObjectArray::PutAt" alt="" coords="452,107,585,133">
+<area shape="rect" href="$class_object_link.html#e4dc7d8fc3e7938afaf73cabb5d086ea" title="ObjectLink::GetIndex" alt="" coords="639,157,785,184">
+<area shape="rect" href="$class_object_link.html#d84e5773d46653b9f9052073fa4cfd41" title="ObjectLink::GetNext" alt="" coords="641,208,783,235">
+<area shape="rect" href="$class_object_link.html#8fc4bbcaa2b5136cfd6a81efa36422d4" title="ObjectLink::GetValue" alt="" coords="639,107,785,133">
+<area shape="rect" href="$class_object_link.html#985ca2c569964841d0ca10a6219ed78c" title="ObjectLink::SetNext" alt="" coords="643,56,781,83">
+<area shape="rect" href="$class_object_link.html#7dc61e7d88ca8154a1df554e509b37a5" title="ObjectLink::SetValue" alt="" coords="639,5,785,32">
+<area shape="rect" href="$class_object_array.html#437ea816e0b745280772f5b49cdd3e04" title="ObjectArray::GetAt" alt="" coords="452,157,585,184">

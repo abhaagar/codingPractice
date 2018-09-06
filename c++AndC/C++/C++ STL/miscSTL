@@ -1,0 +1,12 @@
+- sort in decreasing order:
+  sort(A.begin(), A.end(), std::greater<int>())
+
+- sorting with custome object:
+  struct Xgreater
+  {
+    bool operator()( const X& lx, const X& rx ) const {
+        return lx.x < rx.x;
+    }
+  };
+  sort( my_vec.begin(), my_vec.end(), Xgreater() );
+

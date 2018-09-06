@@ -1,0 +1,4 @@
+# Nmap 6.40 scan initiated Sun Sep  3 16:32:56 2017 as: nmap -PS -p1-1024 -oA healthMonk 52.220.132.186
+Host: 52.220.132.186 (ec2-52-220-132-186.ap-southeast-1.compute.amazonaws.com)	Status: Up
+Host: 52.220.132.186 (ec2-52-220-132-186.ap-southeast-1.compute.amazonaws.com)	Ports: 80/open/tcp//http///	Ignored State: filtered (1023)
+# Nmap done at Sun Sep  3 16:33:09 2017 -- 1 IP address (1 host up) scanned in 13.42 seconds

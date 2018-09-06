@@ -1,0 +1,12 @@
+#include<stack>
+
+int main {
+   stack<int> para;
+   string paraStr;
+   intmax = 0;
+   for(int i=0; i<paraStr.len(); ++i) {
+      if(paraStr[i]=='(')
+
+   }
+   return 0;
+}

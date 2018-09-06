@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_room.html#4aeab088fd78ba74afbad48cab194451" title="Room::GetSide" alt="" coords="191,5,303,32">
+<area shape="rect" href="$class_maze.html#98fbcca2c54e108e5b4bc4b0efbd4606" title="Maze::RoomNo" alt="" coords="189,56,304,83">
+<area shape="rect" href="$class_standard_maze_builder.html#66fc95847058f39a126cdb2f0b9b468e" title="StandardMazeBuilder::BuildDoor" alt="" coords="356,31,572,57">
+<area shape="rect" href="$class_standard_maze_builder.html#7c07cca5b8fbb619867be42d2e9571aa" title="StandardMazeBuilder::BuildRoom" alt="" coords="353,81,575,108">

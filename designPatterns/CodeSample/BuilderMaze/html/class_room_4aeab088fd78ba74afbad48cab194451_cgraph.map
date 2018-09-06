@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_object_array.html#437ea816e0b745280772f5b49cdd3e04" title="ObjectArray::GetAt" alt="" coords="169,56,303,83">
+<area shape="rect" href="$class_object_link.html#e4dc7d8fc3e7938afaf73cabb5d086ea" title="ObjectLink::GetIndex" alt="" coords="353,5,500,32">
+<area shape="rect" href="$class_object_link.html#d84e5773d46653b9f9052073fa4cfd41" title="ObjectLink::GetNext" alt="" coords="356,56,497,83">
+<area shape="rect" href="$class_object_link.html#8fc4bbcaa2b5136cfd6a81efa36422d4" title="ObjectLink::GetValue" alt="" coords="353,107,500,133">

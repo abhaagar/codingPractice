@@ -1,0 +1,12 @@
+TCP KeepAlive
+Side A sends a TCP packet with ACK set with no data to side B (TCP keep alive is disabled by this host).
+Side B sends a TCP packed with ACK set with no data to side A.
+- checking dead peers.
+- preventing disconnection by intermeddiate hops due to network inactivity.
+
+TCP half open:
+TCP connection between process Pa on host A and process Pb on host B is in established state, Suddenly either of the host dies without sending the info of it death to other side. Now Pb will continue to believe that connection is still active.
+
+
+
+

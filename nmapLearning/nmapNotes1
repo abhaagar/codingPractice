@@ -1,0 +1,38 @@
+Host Discovery:
+-iL Inpu from List, useful if the list of hosts is in a file.
+
+DNS Resolution:
+-n (No DNS resolution)
+-R (DNS resolution for all targets)
+--dns-servers <comma separated list of DNS servers>
+
+
+Host Discovery Controls:
+-sL list hosts with domain name. Usually done by reverse DNS lookup.
+-sP 
+-PN
+- to skip host discovery stage use -sL -PN
+Host Discovery Techniques:
+- TCP SYN Ping (-PS)
+  - sends an empty TCP packet with SYN flag set to port 80.
+  - usage: -PS22-25,80,113
+  - for unprivileged user, connect() is called that under the hood sends SYN packet.
+  - some firewalls allows only outgoing TCP connections hence this probe is useless.
+    packets in INVALID states are dropped.
+- TCP ACK Ping (-PA)  
+  - sends TCP packet with ACK flag set.
+  - usage: -PA22-25,80,113
+  - some firewalls keep track of state of TCP connection. Allow packets in NEW,ESTABLISHED
+    state. This probe is useless for these firewalls.
+- ARP scan (-PR)
+  - used in scanning a LAN. 
+  - normal TCP based scan fills up the ARP table and affects the performance.
+- --packet-trace : used to print info all the packets sent.
+
+Port Scanning:
+- -sF,-sN,-sX 
+  -sN don't set any bit in TCP flag.
+  -sF set just TCP FIN bit.
+  -sX set FIN, PSH, and URG flags.
+  - any packet not containing SYN, RST, or ACk bits will result in a returned RST if the port
+    is closed and no response at all if the port is open.

@@ -1,0 +1,85 @@
+#include<iostream>
+#include<unordered_map>
+#include<string>
+#include<algorithm>
+#include<ctime>
+#include<vector>
+using namespace std;
+
+
+long int currentEpoch() {
+   std::time_t result = std::time(0);
+   return result;
+}
+
+class Store {
+   public:
+      void addItem(string name_,int quantity_) {
+          // asuuming qutity to be int.
+          if(_items.find(name_)==_items.end())
+             _items[name_] = 0;
+          _items[name_] += quantity_;
+      }
+      bool removeItem(string name_,int quantity_) {
+          // boll indicates whetehr removal was successfull or not.
+          // asuuming qutity to be int.
+          if(_items.find(name_)==_items.end())
+              return false;
+          if(_items[name_]<quantity_)
+              return false;
+          if(_salesHistory.find(name_)==_salesHistory.end()) {
+              vector<pair<int,int> > v;
+              _salesHistory[name_] = v;
+          } 
+          _items[name_] -= quantity_;
+          _salesHistory[name_].push_back(make_pair(currentEpoch(),quantity_));
+          
+          
+      }
+      int countOfItem(string name_) {
+          if(_items.find(name_)==_items.end())
+             return 0;
+          return _items[name_];
+      }
+
+      int getSales(int from_, int to_,string name_) {
+         if(_salesHistory.find(name_)==_salesHistory.end())
+            return 0;
+         vector<pair<int,int> >::iterator it = _salesHistory[name_].begin(); 
+         int sales = 0;
+         for(; it!=_salesHistory[name_].end();++it)  {
+            if(it->first>=from_ && it->first<=to_){
+               sales += it->second;
+            }
+         }
+         return sales;
+      }
+   private:
+      string _state;
+      string _city;
+      unordered_map<string,int> _items;
+      unordered_map<string,vector<pair<int,int> > >  _salesHistory;
+      //(item->(time,quantity)
+};
+
+class SM {
+   public:
+      void addStore(string name_, string city_, string state_) {
+         
+      }
+
+   public:
+      int _storeCount;
+      //vector<string>
+
+};
+
+
+int main() {
+   SM sm;
+   sm.addStore();
+   // initialized with 0 store
+
+   return 0;
+}
+

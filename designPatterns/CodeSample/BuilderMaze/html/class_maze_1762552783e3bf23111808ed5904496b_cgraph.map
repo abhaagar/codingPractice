@@ -1,0 +1,7 @@
+<area shape="rect" href="$class_room.html#c2bae6ede365de8046a3ca46c1a5f6ea" title="Room::GetRoomNo" alt="" coords="177,56,316,83">
+<area shape="rect" href="$class_object_array.html#d80d4abdd06db8ec12b61443937c522e" title="ObjectArray::PutAt" alt="" coords="180,107,313,133">
+<area shape="rect" href="$class_object_link.html#e4dc7d8fc3e7938afaf73cabb5d086ea" title="ObjectLink::GetIndex" alt="" coords="367,5,513,32">
+<area shape="rect" href="$class_object_link.html#d84e5773d46653b9f9052073fa4cfd41" title="ObjectLink::GetNext" alt="" coords="369,56,511,83">
+<area shape="rect" href="$class_object_link.html#8fc4bbcaa2b5136cfd6a81efa36422d4" title="ObjectLink::GetValue" alt="" coords="367,107,513,133">
+<area shape="rect" href="$class_object_link.html#985ca2c569964841d0ca10a6219ed78c" title="ObjectLink::SetNext" alt="" coords="371,157,509,184">
+<area shape="rect" href="$class_object_link.html#7dc61e7d88ca8154a1df554e509b37a5" title="ObjectLink::SetValue" alt="" coords="367,208,513,235">

@@ -1,0 +1,75 @@
+Eventually Consistent
+---------------------
+Eventually Consistent was defined by Werner Vogels in [E2]: "the storage system guarantees that if no new updates are made to the object, eventually all accesses will return the last updated value."
+
+Let’s try a few implementations of a hypothetical key value store.
+
+Implementation 1: Trying the simplest option
+void put(key, value){
+  // do nothing
+}
+
+value get(key){
+  // Hey, it’s easy to implement! We’re going
+  //  to pretend that we have not yet received
+  //  the write, it is enough!
+  throw “no value for this key” 
+}
+
+Is this an EC store? No, it is not, because it will never return the last updated value. To be an EC store you need to “eventually [...] return the last updated value.” That’s not what this implementation does, it will never return the last updated value.
+
+So let’s try another one.
+
+Implementation 2: Trying to be fast for reads
+void put(key, value){
+   doRealPut(key, value) // does the ‘real’ job
+}
+
+value get(key){
+  if (random(2) == 1) // 50% of the time
+    throw “no value for this key”
+  else
+    return doRealGet(key)
+    // As, 50% of the time, I pretend 
+    //  that I have not yet received
+    //  the first insertion, I
+    //  divide the latency by two!
+}
+
+Is this an EC store? Again, it is not because it does not respect the property “eventually all accesses will return the last updated value.” The “all accesses” condition is not met.
+The definition does not prevent us from doing ridiculous things however, such as:
+
+Implementation 3: Playing on words
+void put(key, value){
+   doRealPut(key, value)
+}
+
+value get(key){
+  if (currentDate.year < 2020)
+    throw “no value for this key”
+  else
+    return doRealGet(key)
+    // I will win all read benchmarks until 2020!
+}
+
+This last implementation complies with the definition, but it’s playing on words. At the end of the day, the fact that we have to return the last value is important because we cannot trick the availability by inventing default initial values.
+
+Lastly, a kind of hard real-time store, with strict SLA and a “make it in the expected time or stop” policy, would not comply with the EC definition: 
+
+Implementation 4: Trying EC for hard real-time systems
+void put(key, value){
+  doRealPut(key, value)
+}
+
+value get(key){
+  try (timeLimit = 10 ms) { // run in 10ms or throw
+    return doRealGet(key)
+  } catch (TimeOutException) {
+    // Max response time is 10ms!
+    throw “no value for this key”
+  }
+}
+
+This kind of behavior is sometimes useful. However, an EC store is not allowed to do that: it breaks its consistency contract. As the second implementation, the “eventually all accesses will return the last updated” promise is broken.
+Nevertheless, this behavior can be added on top of any storage, eventually consistent or not. Actually, one can expect that there already is an option to set a similar timeout on many data stores (again, eventually consistent or not).
+

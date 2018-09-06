@@ -1,0 +1,7 @@
+change the height and widths of splits:
+  - :resize +/-10
+  - :vertical resize +/-10
+
+switching between tabs:
+- gt : to switch to next tab.
+- gT : to switch to previous tab.

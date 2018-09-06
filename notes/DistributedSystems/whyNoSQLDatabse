@@ -1,0 +1,16 @@
+NoSQL in eCommerce
+
+In the above analysis, we are using a relational database like MySQL. In reality, NoSQL database can be a better choice for eCommerce website sometimes.
+
+In case many people don’t know about NoSQL, in layman’s term, NoSQL database tries to store a bunch of things in a single row instead of multiple tables. For instance, instead of having a separate Order table, we can store all the items a user has bought in the same row of User table. As a result, when fetching a user, not only will we get all the personal information, but also his purchase history.
+
+Why can NoSQL be (slightly) better in this case? Let’s use Product model as an example. Suppose we are selling books. A product has category book and tons of attributes like author, publish date, version, the number of pages etc. and this SQL table may have 20 columns. That’s fine.
+
+And now, we also want to sell laptops. So a product should also store attributes of a laptop including brand name, size, color etc.. As you can imagine, with more categories introduced, the Product table can have tons of columns. If each category has 10 attributes in average, it’s gonna be 100 columns with only 10 categories supported!
+
+However, for NoSQL database like MongoDB, a great advantage is that it supports huge number “columns” like this. Each row can have a large number columns but not all of them are set. It’s like storing JSON object as a row (in fact, MongoDB is using something very similar called BSON). As a result, we can just store all those attributes (columns) of a product in a single row, which is exactly what NoSQL database good at.
+
+Advantage:
+- No rigid structure or schema enforcement.
+
+

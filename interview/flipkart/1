@@ -1,0 +1,212 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+class IdCounter {
+    public:
+       static IdCounter *idc;
+       int _id;
+    protected:
+       IdCounter() {
+          _id = 0;
+       }
+    public:
+       int next() {
+          return ++_id;
+       }
+       int id() {
+          return _id;
+       }
+       static IdCounter *instance() {
+          if(!idc) {
+             idc = new IdCounter;
+          }
+          return idc;
+       } 
+};
+
+IdCounter * IdCounter::idc = 0;
+class Employee {
+   public:
+      virtual rating() = 0;
+   private:
+      string _name;
+      int _id;
+      float _rating;
+      float _salary;
+};
+string Employee::name() {
+   return _name;
+}
+int Employee::id() {
+   return _id;
+}
+
+class Engineer : public Employee {
+   public:
+      void ratingIs(float);
+      void salaryIs(float);
+      void managerIs(Engineer*);
+      Engineer* manager();
+      Engineer(string);
+   private:
+      Engineer *_manager;
+};
+Engineer::Engineer(string name_) {
+   _name = name_;
+   IdCounter::instance()->next();
+   _id = IdCounter::instance()->id();
+}
+float Engineer::rating() {
+   return _rating;
+}
+float Engineer::salary() {
+   return _salary;
+}
+void Engineer::ratingIs(float rating_) {
+   _rating = rating_;
+}
+void Engineer::salaryIs(float salary_) {
+   _salary = salary_;
+}
+void Engineer::managerIs(Engineer *manager_){
+   _manager = manager_;
+}
+Engineer * Engineer::manager() {
+   return _manager;
+}
+
+class Manager : public Employee {
+   public:
+      void addEngineer(Engineer *);
+      int rating();
+      int salary();
+      Manager(string);
+   private:
+      vector<Engineer*> _employees;
+};
+
+Manager::Manager(string name_):Engineer(name_) {
+}
+
+int Manager::rating() {
+   int rating = 0;
+   for(int i=0;i<_employees.size();++i){
+      rating += _employees[i]->rating();
+   }
+   return rating/_employees.size();
+}
+int Manager::salary() {
+   int salary = 0;
+   for(int i=0;i<_employees.size();++i){
+      salary += _employees[i]->salary();
+   }
+   return salary/_employees.size();
+}
+void Manager::addEngineer(Engineer *employee_) {
+   if(employee_->id()==id()) {
+      std::cout << "Error: a manager can't be his/her own employee" <<std::endl;
+      return;
+   }
+   for(int i=0; i<_employees.size();++i){
+      if(_employees[i]->id()==employee_->id()) {
+         std::cout << "Warning: Already added " << employee_->name();
+         std::cout << " to mamanger " << _employees[i]->name() << std::endl;
+         return;
+      }
+   }
+   _employees.push_back(employee_);
+}
+
+class EngineerFactory {
+   private:
+
+   public:
+      Engineer* createEngineer(string name_) {
+         return new Engineer(name_);
+      }
+      Engineer* createManager(string name_) {
+         return new Manager(name_);
+      }
+};
+//Engineer * createEngineer() {
+//   string name_;
+//   float rating_, salary_;
+//   std::cin >> name_ >> id_ >> rating_ >> salary_;
+//   Engineer *newEmpl_ = Engineer(name_,id_,rating_,salary_);
+//   return newEmpl_;
+//}
+class CEO : public Engineer {
+   
+    public:
+       Engineer* instance() {
+          if(!ceo) {
+             ceo = new Engineer("CEO");
+          }
+       }
+    private:
+       static Engineer * ceo;
+};
+int main() {
+   EngineerFactory * empFact = new EngineerFactory; 
+   Engineer * emp1 = empFact->createEngineer("E1");
+   Engineer * emp2 = empFact->createEngineer("E2");
+   Engineer * emp3 = empFact->createEngineer("E3");
+   Engineer * emp4 = empFact->createEngineer("E4");
+   Manager * manager1 = empFact->createManager("M1");
+   Manager * manager2 = empFact->createManager("M2");
+   manager1->addEngineer(emp1);
+   //std::unordered_map<string,Engineer*> employees;
+   //std::unordered_map<string,Engineer*> managers;
+   //vector<Engineer*> employees;
+   //vector<Manager*> managers;
+   //Engineer *ceo;
+   //char choice;
+   //string id;
+   //Engineer *empl_;
+   //while(true) {
+   //   usage();
+   //   std::cin >> choice;
+   //   switch(choice) {
+   //      case '1':
+   //         std::cin >> id;
+   //         if(employees.find(id)==employees.end()) {
+   //            empl_ = createEngineer(employees); 
+   //            employees[empl_.id()] = empl_;
+   //         } else {
+   //            std::cout << "Error: Engineer with input id already exists\n";
+   //         }
+   //      case '2':
+   //         std::cin >> id;
+   //         if(employees.find(id)!=employees.end()) {
+   //             if(managers.find(empl_.id())!=managers.end()) {
+   //                std::cout << "Error: Manager already exists\n";
+   //             } else {
+   //                empl_ = createEngineer(); 
+   //                employees[empl_.id()] = empl_;
+   //                managers[empl_.id()] = empl_;
+   //             }
+   //         } else {
+   //            std::cout << "Error: Engineer with input id already exists\n";
+   //         }
+   //      case '3':
+   //         if(ceo) {
+   //            std::cout << "CEO already exists\n";
+   //         } else { 
+   //            empl_ = createEngineer(); 
+   //            employees[empl_.id()] = empl_;
+   //            ceo = empl_;
+   //         } 
+   //      case '4':
+   //         std::cin >> managerId >> employeeId; 
+   //         if(managers.find(managerId)!=managers.end() && employees.find(employeeId)!=employees.end()) {
+   //            employees[employeeId].managerIs(managers[managerId]);
+   //            managers[managerId].addEngineer(employees[employeeId]);
+   //         } else {
+   //            std::cout << "Error: either manager or employee does not exist\n"
+   //         } 
+   //      case '5':
+ 
+   //   }
+   //}
+   return 0;
+}

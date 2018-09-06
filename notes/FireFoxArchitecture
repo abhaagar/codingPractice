@@ -1,0 +1,20 @@
+- data that makes up a web page has 3 parts:
+  1- code that represents the structure of a web page.
+  2- code that provides style: the visual appearance of the structure.
+  3- code that acts as a script of actions for the browser to take: computing, reacting to user actions, and modifying the structure and style beyond what was loaded initially.
+
+- browser's parser first parses the html file to create an in-memory structure called DOM. DOM represents a tree like structure of HTML elements with properties, along with container and containee relationship.
+
+- next comes the CSS (cascading style sheet) that captures the information about the appearance of the above parsed structures. Every element has by default some appearance, CSS overrides them.
+  - A bit about CSS, it has two parts. 
+  - First part is selector that describe the elements of the DOM being styled, 
+  - and a list of declarations that specify the styles to be applied to elements that match the selector.
+
+- browser engine parses the HTML code and create DOM.
+- CSS parser parses the CSS defined and determine the appearance of DOM elements.
+- STYLE ENGINE, takes the above to information and applies CSS to DOM.
+
+
+
+
+

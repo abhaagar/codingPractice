@@ -1,0 +1,37 @@
+Requirements:
+1)- Faster Upload/Download.
+2)- Faster Website Loading.
+3)- Faster Searching.
+4)- User Management.
+5)- Security.
+6)- Online Editing.
+7)- Persistence.
+
+Key Ideas:
+1)- Resize the imageif your weboste allows only a limited number of size before upload.
+2)- Compress the photo before upload.
+3)- Use multiple storage server for storing images with to better I/O throughput.
+4)- Replication to protect increase availability.
+5)- Hierarchical organization for better searching.
+6)- If possible mutipple ways of grouping the images, categaory wise, user wise, geography wise.
+7)- Use Oauth for security and authentication.
+8)- Load balancing for performance.
+9)- If cost effective use SSD powered storage servers.
+10)- Pregenerate photos in different resolutions for thumbnail and adjustment to network bandwidth 
+     between client and server.
+11)- To simplfy 
+Core Use Cases:
+
+a. upload image(s)
+b. view images(s).
+
+Important aspects of the system are:
+
+* There is no limit to the number of images that will be stored, so storage scalability,     
+  in terms of image count needs to be considered.
+* There needs to be low latency for image downloads/requests.
+* If a user uploads an image, the image should always be there (data reliability for images).
+* The system should be easy to maintain (manageability).
+* Since image hosting doesn't have high profit margins, the system needs to be cost-effective.
+
+

@@ -1,0 +1,26 @@
+#include<iostream>
+
+int main() {
+   int T;
+   std::cin >> T;
+   while(--T) {
+      int N;
+      std::cin >> N;
+      int *array = (int*) malloc(sizeof(int)*N);
+      int *smallGreat= (int*) malloc(sizeof(int)*N);
+      int max = -1000000,min = 100000;
+      for(int i=0; i<N; ++i) {
+         std::cin >> *(array+i);
+         if(max<*(array+i)) {
+           *(smallGreat+i) = max;
+         }
+      }
+      for(int i=N-1; i>=0; --i) {
+         if(min>*(array+i)) {
+            if(*(smallGreat)!=*(array+i))
+               *(smallGreat) = 0;
+         }
+      } 
+   }
+   return 0;
+}

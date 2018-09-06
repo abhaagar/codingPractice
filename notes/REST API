@@ -1,0 +1,69 @@
+REST API Tutorial:
+------------------
+HTTP API:
+Let's say we have an application that allows you to view, create, edit, and delete widgets. We could create an HTTP API that allows you to perform these functions:
+  http://example.com/view_widgets
+  http://example.com/create_new_widget?name=Widgetizer
+  http://example.com/update_widget?id=123&name=Foo
+  http://example.com/delete_widget?id=123
+What is the issue in developing this way?
+  - when everyone starts implementing their own APIs. 
+  - without a standard way of naming URLs, you always have to refer to the documentation to understand how the API works. 
+  - One API might have a URL like /view_widgets whereas another API might use /widgets/all.
+Why REST?
+  - REST stands for Representational State Transfer. 
+  - This is a term invented by Roy Fielding to describe a standard way of creating HTTP APIs. 
+  - He noticed that the four common actions (view, create, edit, and delete) map directly to HTTP verbs that are already implemented: GET, POST, PUT, DELETE.  
+Examples of REST:
+  - If we wanted to view all widgets, the URL would look like this:
+    GET http://example.com/widgets
+
+  - Create a new widget by posting the data:
+    POST http://example.com/widgets
+    Data:
+        name = Foobar
+
+  - To view a single widget we "get" it by specifying that widget's id:
+    GET http://example.com/widgets/123
+
+  - Update that widget by "putting" the new data:
+    PUT http://example.com/widgets/123
+    Data:
+        name = New name
+        color = blue
+
+  - Delete that widget:
+    DELETE http://example.com/widgets/123
+Anatomy of REST URL:
+  - Almost always manipulating some sort of object. 
+  - In our examples, this is a Widget. In REST terminology, this is called a Resource. 
+  - The first part of the URL is always the plural form of the resource:
+      /widgets
+  - This is always used when referring to this collection of resources ("list all" and "add one" actions). 
+    When you are working with a specific resource, you add the ID to the URL.
+      /widgets/123
+  - Nested Resources:
+    - Let's say our widgets have many users associated with them. What would this URL structure look like?
+    - List all:
+       GET /widgets/123/users
+    - Add one:
+       POST /widgets/123/users
+          Data:
+          name = Andrew
+    - Nested resources are perfectly acceptable in URLs. 
+    - However, it's not a best practice to go more than two levels deep. 
+    - It's not necessary because you can simply refer to those nested resources by ID rather than nesting them within their parents. 
+    - For example:
+         /widgets/123/users/456/sports/789
+      can be referenced as:
+         /users/456/sports/789
+      or even:
+         /sports/789
+Best Practice in REST API:
+   - path params are used to identify a specific resource or resources.
+     - GET /cars
+   - query parameters are used to sort/filter those resources.
+     - GET /cars?color=blue 
+   - URI should only consist of parts that will never change and will continue to uniquely identify that resource 
+     throughout its lifetime. Everything that may change should be reserved for query parameters,
+     - GET /cars/honda/civic/coupe/{vin}?color={black}

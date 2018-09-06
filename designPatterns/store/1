@@ -1,0 +1,131 @@
+#include<string>
+#include<vector>
+#include<unordered_map>
+#include<iostream>
+using namespace std;
+class Category {
+   public:
+      
+};
+
+class Item {
+   private:
+      string _name;
+      vector<string> _categories;
+};
+
+class Transaction {
+   public:
+      int time();
+      string category(); 
+      string name();
+      int count();
+      float price();
+      float value();
+   private:
+      const int _time;
+      const string _category;
+      const string _name;
+      const int _count;
+};
+int Transaction::time() {
+   return _time;
+}
+string Transaction::category() {
+   return _category;
+}
+string Transaction::name() {
+   return _name;
+}
+int Transaction::count() {
+   return _count;
+}
+class Inventory {
+   public:
+      void addItem(string,int);
+      bool removeItem(string,int);
+      int stockLeft(string item_);
+   private:
+      unordered_map<string,int> _stock;
+      bool doesItemExist(string name_);
+};
+bool Inventory::doesItemExist(string name_) {
+   return _stock.find(name_)!=_stock.end();
+}
+
+void Inventory::addItem(string name_, int count_) {
+   if(!doesItemExist(name_))
+      _stock[name_] = 0;
+   _stock[name_] += count_;
+}
+bool Inventory::removeItem(string name_,int count_) {
+   if(!doesItemExist(name_)) {
+      cout<<"Item does not exist "+name_ << endl;
+      return false;
+   }
+   if(_stock[name_]<count_) {
+      cout << "Insufficient stock left\n";
+      return false;
+   }
+   _stock[name_] -= count_; 
+}
+int Inventory::stockLeft(string name_) {
+   if(doesItemExist(name_))
+      return _stock[name_];
+   return 0;
+}
+class Store {
+   public:
+      //int unitSoldForCategory(int, int,string);
+      int unitSoldForItem(int,int,string);
+      int unitSold(int, int);
+      int stockLeft(string);
+      void loadItem(string, int);
+      bool purchaseItem(string,int);
+      Store(string name_): _name(name_) {}
+   private:
+      unordered_map<string, vector<Transaction*> > _transactions;
+      Inventory _inventory;
+      string _name;
+};
+
+//int Store::unitSoldForCategory(int from_, int to_, string category_);
+int Store::unitSoldForItem(int from_, int to_, string name_) {
+   int sale=0;
+   if(_transactions.find(name_)==_transactions.end())
+      return sale;
+   for(int i=0; i<_transactions[name_].size();++i) {
+      if(_transactions[name_][i]->time()>=from_ && 
+         _transactions[name_][i]->time()<=to_ && 
+         _transactions[name_][i]->name()==name_)
+         sale += _transactions[name_][i]->count();
+   }
+   return sale;
+}
+int Store::unitSold(int from_, int to_) {
+   float sale=0;
+   unordered_map<string, vector<Transaction*> >::iterator it = _transactions.begin();
+   for(;it!=_transactions.end();++it) {
+      for(int j=0; j<(it->second).size();++j) {
+         if((it->second)[j]->time()>=from_ && (it->second)[j]->time()<=to_)
+            sale += (it->second)[j]->count();
+      }
+   }
+   return sale;
+}
+int Store::stockLeft(string name_) {
+   return _inventory.stockLeft(name_);
+}
+void Store::loadItem(string name_, int count_) {
+   _inventory.addItem(name_,count_);
+}
+bool Store::purchaseItem(string name_,int count_) {
+   return _inventory.removeItem(name_,count_);
+}
+
+class CityStores {
+   public:
+
+
+};
+

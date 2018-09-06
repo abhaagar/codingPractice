@@ -1,0 +1,62 @@
+
+memcopy(void * source, void * destination, int length)- 
+copy `length` bytes from source address to destination address.
+
+
+void memcopy(void * sourceTemp, void * destinationTemp, unsigned int length) {
+   char *source = (char*)sourceTemp;
+   char *destination = (char*)destinationTemp;
+   if(length==0)
+      return;
+   if(source<destination && source+length>destination) {      
+      for(unsigned int i=length-1; i>=0;--i) {
+         *(destination+i) = *(source+i);
+      }
+   } else {
+      while(length--) {
+         *(destination++) = *(source++);
+      }
+   }
+   return;
+}
+
+reversal of string, given a string with 
+
+abe=cd -> dce=ba
+
+a=bcde
+e=dcba
+
+abcd=e
+edcb=a
+
+e===
+e===
+
+=eb===
+=be===
+
+e=d=a
+
+ee=d=aa
+aa=d=ee
+
+bool isAlhpaNumeric(char c);
+
+void reverseNonAphaChar(char * str, unsigned int length) {
+   unsigned start = 0, end = length-1;
+   
+   while(start<end) {
+      while(!isAlphaNumeric(*(str+start))) ++start;
+
+      while(!isAlphaNumeric(*(str+end))) --end;
+
+      if(start>end)
+         return;
+      swap(*(str+start),*(str+end));
+      ++start;
+      --end;      
+   }   
+}
+
+

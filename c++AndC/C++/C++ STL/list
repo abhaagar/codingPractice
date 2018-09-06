@@ -1,0 +1,11 @@
+when to use:
+-----------
+- If number of elements are unpredicatble in starting.
+- Insertion and Deletion are required at any random place.
+
+When not to use:
+----------------
+- The size of data item is small.
+- Need constant time random access.
+
+

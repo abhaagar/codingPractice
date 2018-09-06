@@ -1,0 +1,7 @@
+Distributed systems are different because they fail often:
+The constituting processes reside on different computers connected by network like internet (using switches, router). In a way network play an important role and make the system fail even if the computers are working fine. Apart from this each computer can fail independently (power failure, disk failure, resource unavailablity) and hence increases the probability of failure of whole system.
+Conclusion: Design for failure.
+
+
+
+

@@ -1,0 +1,2 @@
+This is same as vector but the data structure does not suffer due to reallocation when need to resize on addition of elements.
+

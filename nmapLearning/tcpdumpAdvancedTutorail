@@ -1,0 +1,43 @@
+Advanced tcpdump options:
+-e  to display ethernet addresses of the network interfaces
+
+- Filtering Host
+   - tcpdump -i eth0 host 192.168.0.1
+   - tcpdump -i eth0 src host 192.168.0.1
+   - tcpdump -i eth0 dst host 192.168.0.1
+
+- Filtering Port
+   - tcpdump -i eth0 port 80
+   - tcpdump -i eth0 src port 80
+   - tcpdump -i eth0 dst port 80
+
+- Network Filtering
+   - tcpdump -i eth0 net 192.168
+   - tcpdump -i eth0 src net 192.168
+   - tcpdump -i eth0 dst net 192.168
+
+- Protocol Filtering
+   - tcpdump -i eth0 arp
+   - tcpdump -i eth0 tcp
+
+- expressions with more that one condtions
+   - Negation : ! or not
+   - Concatanate : && or and
+   - Alternate : || or or
+
+- Advanced Header Filtering:
+  - This rule will match any TCP traffic on port 80 (web) with 192.168.1.254 or 192.168.1.200 as destination host
+    tcpdump -i eth0 '((tcp) and (port 80) and ((dst host 192.168.1.254) or (dst 192.168.1.200)))'
+  - Will match any ICMP traffic involving the destination with physical/MAC address 00:01:02:03:04:05
+    tcpdump -i eth0 '((icmp) and (ether dst host 00:01:02:03:04:05))'
+
+- IP header
+  - we want to know if the IP header has options set
+    tcpdump -i eth0 'ip[0] & 15 > 5'
+  - DF bit (don't fragment) set 
+    tcpdump -i eth0 'ip[6] & 64 = 64'
+    ping -M want -s 4000 192.168.1.1
+- TCP header
+   - Matching any TCP traffic with a source port > 1024
+     tcpdump -i eth1 'tcp[0:2] > 1024'
+

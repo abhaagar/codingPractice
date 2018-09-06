@@ -1,0 +1,19 @@
+map:
+- internally maintain elements in order of key using balanced tree structure so key must have operator< defined.
+- insertion, search, deletion Log(n)
+- elements have order so iteration is possible.
+multi_map:
+- same as map but can store multiple values with same key.
+unordered_map:
+- internally use hash table. operator== must be defined for the key. Also hash function.
+- insertion, search, deletion O(1)
+
+Map:
+   In map, elements are stored in order of key but in case of unordered_map there
+   is no such order among elements. Let us see the difference
+   map<int,string> m1;
+   unordered_map<int,string> m2;
+   if we are told to delete all the elements whose keys are greater than 5
+   then in 
+   map : mi.erase(m1.find(5),m1.end())
+   unordered_map: iterate over all the elements and check if key is more than 5 and delete.

@@ -1,0 +1,10 @@
+<area shape="rect" href="$class_wall.html#d1c7339b44180d66693d636a6af9916a" title="Wall::Print" alt="" coords="167,5,249,32">
+<area shape="rect" href="$class_room.html#95a16ca5427a75ad9026d4dc8a1c29ae" title="Room::Print" alt="" coords="499,168,592,195">
+<area shape="rect" href="$class_object_link.html#ca0f4a217301a460a9361c6fd0546620" title="ObjectLink::Print" alt="" coords="327,120,447,147">
+<area shape="rect" href="$class_object_array.html#9e93a553c9e76563932d5abb2e438bde" title="ObjectArray::Print" alt="" coords="323,196,451,223">
+<area shape="rect" href="$class_maze.html#51deac60162bb42cbc1d062b6979ca58" title="Maze::Print" alt="" coords="500,224,591,251">
+<area shape="rect" href="$class_object.html#7d7a9a39f53bfb64cea813255bad87e2" title="Object::Print" alt="" coords="160,157,256,184">
+<area shape="rect" href="$class_maze_game.html#a5e4ea7846d971476858b1719d9a66d7" title="MazeGame::Print" alt="" coords="145,309,271,336">
+<area shape="rect" href="$class_map_site.html#7779aacf8856798eb673ca2954d46f24" title="MapSite::Print" alt="" coords="155,360,261,387">
+<area shape="rect" href="$class_door.html#dc5d13bedcb76162508aa220554eeccd" title="Door::Print" alt="" coords="165,411,251,437">
+<area shape="rect" href="$class_bombed_wall.html#548830b4151d7de5b671b16b18020dfb" title="BombedWall::Print" alt="" coords="141,461,275,488">

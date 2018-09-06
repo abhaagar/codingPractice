@@ -1,0 +1,6 @@
+Distributed Systems:
+The significant characteristics of distributed systems are:
+1)- Concurrency of Components.
+2)- Lack of Global Clock.
+3)- Independent Failure of Components.
+
